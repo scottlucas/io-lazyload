@@ -52,7 +52,13 @@ class IOlazy {
                 }
 
                 if ( change.target.getAttribute('data-src') ) {
-                    change.target.src = change.target.getAttribute('data-src');
+                    change.target.parentNode.classList.add('loading');
+                    var preload = new Image();
+                    preload.onload = function() {
+                        change.target.src = change.target.getAttribute('data-src');
+                        change.target.parentNode.classList.remove('loading');
+                    };
+                    preload.src = change.target.getAttribute('data-src');
                 }
 
                 this.observer.unobserve(change.target);
